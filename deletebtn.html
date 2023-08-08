@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <title>Item Listner</title>
+</head>
+<body>
+    
+      <div class="container">
+       <div id="main" class="card card-body">
+        <h2 class="title">Add Items</h2>
+        <form id="addForm" class="form-inline mb-3">
+          Name : <input type="text" class="form-control mr-2" id="name">
+          Email ID : <input type="text" class="form-control mr-2" id="mail">
+          Ph No : <input type="text" class="form-control mr-2" id="ph">
+         <input type="submit" class="btn btn-dark" value="Submit" id="sub">
+        </form>
+        <h2 class="title"></h2>
+        <ul id="items" class="list-group"></ul>
+       </div>
+      </div>
+      <script>
+        var obj={};
+        var form=document.querySelector("#addForm");
+        var ul=document.querySelector("#items");
+        let name=document.querySelector("#name");
+        var mail=document.querySelector("#mail");
+        var ph=document.querySelector("#ph");
+        form.addEventListener("submit", add);
+        function add(e){
+            e.preventDefault();
+            if(name.value==="" || mail.value==="" || ph.value==""){
+                alert("Please enter the values?");
+            }
+            else{
+                let li=document.createElement("li");
+                let del=document.createElement('button');
+                del.type="submit";
+                del.innerHTML="Delete";
+                li.append(document.createTextNode(`${name.value} ${mail.value} ${ph.value}`));
+                li.id=mail.value;     
+                li.append(del);
+                ul.append(li);
+                del.addEventListener("click",dele);
+                function dele(e){
+                  e.preventDefault();
+                  let a=del.parentElement;        
+                  localStorage.removeItem(`${a.id}`);
+                  a.remove();
+                 
+                }
+                obj.name=name.value;
+                obj.email=mail.value;
+                obj.phoneNumber=ph.value;
+                localStorage.setItem(obj.email,JSON.stringify(obj));
+                name.value="";
+                mail.value="";
+                ph.value="";
+            }
+        }
+        
+      </script>
+</body>
+</html>
